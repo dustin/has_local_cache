@@ -25,8 +25,6 @@ module HasLocalCache
   end
 
   module ClassMethods
-    # XXX: The actual cache_fu signature is (*args) and will special case
-    # multiple keys vs. options.  This should probably be fixed.
     def get_cache_with_local_cache(*args, &block)
       options = args.last.is_a?(Hash) ? args.pop : {}
       args    = args.flatten
