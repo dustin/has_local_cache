@@ -27,7 +27,17 @@ module HasLocalCache
   module ClassMethods
     # XXX: The actual cache_fu signature is (*args) and will special case
     # multiple keys vs. options.  This should probably be fixed.
-    def get_cache_with_local_cache(key, options={}, &block)
+    def get_cache_with_local_cache(*args, &block)
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      args    = args.flatten
+
+      if args.size > 1
+        # TODO: Cache these as well.
+        return get_caches(args, options)
+      else
+        key = args.first
+      end
+
       HasLocalCache::RequestCache.get_cache(cache_key(key)) do
         get_cache_without_local_cache key, options, &block
       end
