@@ -36,7 +36,7 @@ module HasLocalCache
 
   module InstanceMethods
     def get_cache_with_local_cache(key, options={}, &block)
-      HasLocalCache::RequestCache.get_cache(cache_key) do
+      HasLocalCache::RequestCache.get_cache(cache_id(key)) do
         get_cache_without_local_cache key, options, &block
       end
     end
