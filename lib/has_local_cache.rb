@@ -24,7 +24,7 @@ module HasLocalCache
 
   end
 
-  module CommonMethods
+  module ClassMethods
     def get_cache_with_local_cache(key, &block)
       HasLocalCache::RequestCache.get_cache(cache_key(key)) do
         get_cache_without_local_cache key, &block
@@ -32,12 +32,12 @@ module HasLocalCache
     end
   end
 
-  module ClassMethods
-    include CommonMethods
-  end
-
   module InstanceMethods
-    include CommonMethods
+    def get_cache_with_local_cache(key, options={}, &block)
+      HasLocalCache::RequestCache.get_cache(cache_key) do
+        get_cache_without_local_cache key, options, &block
+      end
+    end
   end
 
   module Mixin
